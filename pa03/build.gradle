@@ -1,0 +1,35 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+// This project keeps sources in src/ and tests in test/
+sourceSets {
+    main {
+        java { srcDirs = ['src'] }
+    }
+    test {
+        java { srcDirs = ['test'] }
+    }
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.11.4')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+test {
+    useJUnitPlatform()
+
+    // BFS on the larger puzzles stores millions of states, so give the tests extra memory.
+    maxHeapSize = '4g'
+
+    testLogging {
+        events 'passed', 'failed'
+        exceptionFormat = 'full'
+    }
+}
